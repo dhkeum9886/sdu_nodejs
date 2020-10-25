@@ -93,7 +93,7 @@ const server = http.createServer(function(request, response){
 
     // // url 에 따른 동작 분리
     // if ('/a' == request.url){
-    //     fs.readFile('./080020.jpg', function(error, file){
+    //     fs.readFile('./222.jpg', function(error, file){
     //         if (error){
     //             console.log(error);
     //             response.writeHead(500,{'Content-Type':'text/html'});
