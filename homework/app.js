@@ -1,16 +1,10 @@
-const PORT = 55555;
+const PORT = 80;
 const fs = require('fs');
 const bodyParser = require('body-parser')
 const express = require('express');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
-
-app.get('/login', (request, response) =>{
-    fs.readFile('./login_get.html', (error, data)=>{
-        response.send(data.toString());
-    });
-});
 
 app.get('/display', (request, response) =>{
     fs.readFile('./display.html', (error, data)=>{
@@ -54,17 +48,23 @@ app.get('/video', (request, response) =>{
     });
 });
 
-app.post('/login', (request, response) =>{
-    console.log(request.body);
-    let login = request.body.login;
-    let password = request.body.password;
 
-    console.log(login, password);
-    if (login!=='' && password !== ''){
-        response.redirect('/display');
-    } else {
-        response.redirect('/login');
-    }
+app.get('/get', (request, response) =>{
+    fs.readFile('./login_get.html', (error, data)=>{
+        response.send(data.toString());
+    });
+});
+app.post('/get', (request, response) =>{
+    response.redirect('/display');
+});
+
+app.get('/post', (request, response) =>{
+    fs.readFile('./login_post.html', (error, data)=>{
+        response.send(data.toString());
+    });
+});
+app.post('/post', (request, response) =>{
+    response.redirect('/display');
 });
 
 
