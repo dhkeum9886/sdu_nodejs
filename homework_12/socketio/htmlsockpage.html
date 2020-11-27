@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>socket.io</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        window.onload = function(){
+            var socket=io.connect();
+            var room = prompt('insert room name', '');
+            console.log(room);
+
+            socket.emit('join',room);
+
+            socket.on('message', (data)=>{
+                console.log('<p> room name:' + room + '=>' + data + '</p>');
+                $('<p> room name:' + room + '=>' + data + '</p>').appendTo('body');
+            });
+
+            document.getElementById('button').onclick = ()=>{
+                socket.emit('message', 'socket.io room message');
+            };
+        };
+    </script>
+</head>
+<body>
+    <button type="button" id="button">button</button>
+</body>
+</html>

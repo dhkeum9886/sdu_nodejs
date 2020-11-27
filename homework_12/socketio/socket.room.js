@@ -8,18 +8,26 @@ const fs = require('fs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res, next) {
-    fs.readFile('./htmlpage.html', (error, data)=>{
+    fs.readFile('./htmlsockpage.html', (error, data)=>{
         res.send(data.toString());
     });
 });
 
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-io.on('connection', socket => {
-    socket.on('rint', (data) => {
-        console.log('client send data:', data)
-        socket.emit('smart', data);
+io.on('connection', (socket) => {
+    let roomname = null;
+    socket.on('join', (data) => {
+        roomname = data;
+        socket.join(data);
     });
+
+    socket.on('message', (data) => {
+        console.log(roomname);
+        io.sockets.in(roomname).emit('message', 'test');
+        console.log('client disconnet')
+    });
+
     socket.on('disconnect', (data) => {
         console.log('client disconnet')
     });

@@ -18,7 +18,8 @@ const io = require('socket.io')(server);
 io.on('connection', socket => {
     socket.on('rint', (data) => {
         console.log('client send data:', data)
-        socket.emit('smart', data);
+        // socket.emit('smart', data);
+        socket.broadcast.emit('smart', data); // broadcast
     });
     socket.on('disconnect', (data) => {
         console.log('client disconnet')

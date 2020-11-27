@@ -13,12 +13,16 @@ app.get('/', function(req, res, next) {
     });
 });
 
+let id = 0;
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-io.on('connection', socket => {
+io.on('connection', (socket) => {
+    id = socket.id;
+    console.log('client id:', id);
     socket.on('rint', (data) => {
-        console.log('client send data:', data)
-        socket.emit('smart', data);
+        console.log('client send data:', data);
+        // socket.emit('smart', data);
+        io.sockets.to(socket.id).emit('smart', data);  // private
     });
     socket.on('disconnect', (data) => {
         console.log('client disconnet')
